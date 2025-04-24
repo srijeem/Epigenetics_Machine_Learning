@@ -1,4 +1,4 @@
-ML analysis:
+## ML analysis:
 
 ### This script is performing SVM
 ### with the use of 10k features extracted from the RFECV as an input
