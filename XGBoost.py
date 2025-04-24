@@ -217,7 +217,7 @@ xgb_classifier = xgb.XGBClassifier(
     n_jobs=-1  # Use all available CPU cores for parallelization
 )
 
-# Define KFold cross-validation (5 folds)
+# Define KFold cross-validation (K =10 folds)
 cv = KFold(n_splits=10, shuffle=True, random_state=42)
 
 # Initialize figure for ROC plot
@@ -259,7 +259,7 @@ for i, (train_idx, test_idx) in enumerate(cv.split(x_train_filtered, y_train)):
     print(f"  ROC-AUC: {roc_auc:.2f}")
     print("-" * 40)
 
-# Evaluate the final model on the validation set (using entire training data)
+# Evaluate the final model on the validation set 
 xgb_classifier.fit(x_train_filtered, y_train)
 y_valid_pred_proba = xgb_classifier.predict_proba(x_valid_filtered)[:, 1]
 
@@ -312,10 +312,6 @@ y_test_pred_optimal = (y_test_pred_proba_class_1 >= optimal_threshold).astype(in
 
 # Confusion Metrics with the optimum threshold obtained from Youden's Index
 
-
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score
-import matplotlib.pyplot as plt
-
 # Use the new threshold to classify predictions
 threshold = 0.2488  # New threshold
 y_test_pred = (y_test_pred_proba_class_1 >= threshold).astype(int)
@@ -328,9 +324,6 @@ cm_display = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix_result, di
 cm_display.plot()
 plt.title('Confusion Matrix for Test Set with Threshold = {:.4f}'.format(threshold))
 plt.show()
-
-
-
 
 #################################################################################################
 
