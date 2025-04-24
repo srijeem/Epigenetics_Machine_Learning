@@ -147,7 +147,7 @@ plt.show()
 
 ## Performed K-fold cross validation for SVM
 
-# Define the cross-validator object (e.g., KFold with 10 folds)
+# Define the cross-validator object (KFold with 10 folds)
 cv = KFold(n_splits=10, shuffle=True, random_state=42)
 
 # Initialize lists to store AUC for each fold
