@@ -178,7 +178,34 @@ for i, (train_idx, test_idx) in enumerate(cv.split(x_train, y_train)):
     aucs.append(roc_auc)
     
     # Plot ROC curve for the fold
-    plt.plot(fpr, tpr, lw=1,
+    plt.plot(fpr, tpr, lw=1,alpha=0.3, label='Fold %d (AUC = %0.2f)' % (i+1, roc_auc))
+
+# Get decision scores on the validation set using SVM classifier
+decision_scores_svm = best_svm.decision_function(x_valid)
+
+# Convert decision scores to probability estimates using sigmoid function
+probabilities_svm = 1 / (1 + np.exp(-decision_scores_svm))
+
+# Calculate false positive rate, true positive rate, and threshold values for ROC curve
+fpr_svm, tpr_svm, _ = roc_curve(y_valid, probabilities_svm)
+
+# Calculate AUC score
+auc_score_svm = roc_auc_score(y_valid, probabilities_svm)
+
+# Plot ROC curve for the validation set
+plt.plot(fpr_svm, tpr_svm, auc_score_svm, color='b', lw=2)
+
+# Plot random guess line
+plt.plot([0, 1], [0, 1], linestyle='--', color='r', lw=2, label='Random Guess')
+
+# Set plot attributes
+plt.xlim([-0.05, 1.05])
+plt.ylim([-0.05, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve - SVM with Cross-Validation')
+plt.legend(loc="lower right")
+plt.show()
 
 
 #################################################################################################
