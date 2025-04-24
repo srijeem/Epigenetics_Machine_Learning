@@ -107,6 +107,8 @@ plt.title('Receiver Operating Characteristic (ROC) Curve')
 plt.legend(loc="lower right")
 plt.show()
 
+## Did Hyperparameter Tuning and tested it on the
+## 10% test set (Not providing with the hyperparameters which gave us the proper accuracy)
 
 
 ## Performed K-fold cross validation for Logistic Regression
