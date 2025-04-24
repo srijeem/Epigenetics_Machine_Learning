@@ -85,65 +85,8 @@ print("Test Accuracy:", test_accuracy)
 
 
 
-## This code of SVM is after performing Hyperparameter Tuning and 
-## also tested the model on the 10% test data along with the ROC for the test set
-
-# Define the SVM classifier
-svm_classifier = SVC(random_state=42)
-
-# Define the hyperparameters to tune
-param_grid = {
-    'C': [10],
-    'kernel': ['rbf'],
-    'gamma': ['auto']
-}
-# Perform grid search cross-validation to find the best hyperparameters
-grid_search = GridSearchCV(estimator=svm_classifier, param_grid=param_grid, cv=10, scoring='accuracy')
-grid_search.fit(x_train_selected, y_train)
-
-# Get the best hyperparameters
-best_params = grid_search.best_params_
-print("Best Hyperparameters:", best_params)
-
-# Train the SVM classifier with the best hyperparameters
-best_svm = SVC(random_state=42, probability=True, **best_params)
-best_svm.fit(x_train_selected, y_train)
-
-# Evaluate the model using cross-validation
-cv_scores = cross_val_score(best_svm, x_train_selected, y_train, cv=10)
-print("Cross-Validation Mean Accuracy:", cv_scores.mean())
-
-# Evaluate the model on the validation set
-y_valid_pred = best_svm.predict(x_valid_selected)
-validation_accuracy = accuracy_score(y_valid, y_valid_pred)
-print("Validation Accuracy:", validation_accuracy)
-
-# Evaluate the model on the test set
-y_test = testtargets['R2']
-y_test_pred = best_svm.predict(x_test_selected)
-test_accuracy = accuracy_score(y_test, y_test_pred)
-print("Test Accuracy:", test_accuracy)
-
-# Predict probabilities on the test set
-y_test_pred_proba = best_svm.predict_proba(x_test_selected)[:, 1]
-
-# Calculate false positive rate, true positive rate, and threshold values for ROC curve
-fpr, tpr, thresholds = roc_curve(y_test, y_test_pred_proba)
-
-# Calculate AUC score
-auc_score = roc_auc_score(y_test, y_test_pred_proba)
-
-# Plot ROC curve
-plt.plot(fpr, tpr, color='b', lw=2, label='ROC curve (area = %0.2f)' % auc_score)
-plt.plot([0, 1], [0, 1], color='r', lw=2, linestyle='--')
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.05])
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('Receiver Operating Characteristic (ROC) Curve')
-plt.legend(loc="lower right")
-plt.show()
-
+## Did Hyperparameter Tuning and tested it on the
+## 10% test set (Not providing with the hyperparameters which gave us the proper accuracy)
 
 ## Performed K-fold cross validation for SVM
 
